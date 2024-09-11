@@ -2,3 +2,10 @@
 docker ps #inspect current containers
 
 ##Images
+docker image ls #inspect current images
+docker rmi [imageID] #remove image
+docker image build --tag rstudio:1.0.0 -f dockerfile_rstudio . #build rstudio image
+
+## Edit files
+nano /home/docker_learn/dockerfile_rstudio #edit a txt file
+#to save press CTRL+X, then Y
