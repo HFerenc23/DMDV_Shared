@@ -1,1 +1,4 @@
+##Containers
+docker ps #inspect current containers
 
+##Images
