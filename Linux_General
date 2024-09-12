@@ -1,0 +1,8 @@
+##How to login automatically as root
+nano ~/.bashrc
+
+#add the following line to the end
+sudo -i
+
+#Restart
+
