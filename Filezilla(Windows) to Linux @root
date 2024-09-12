@@ -1,0 +1,48 @@
+1. Ensure Root Login is Permitted
+Edit the SSH Configuration: Open the SSH configuration file on your Linux machine:
+sudo nano /etc/ssh/sshd_config
+
+Permit Root Login: Ensure the following lines are set correctly:
+PermitRootLogin yes
+PasswordAuthentication yes
+
+Restart SSH Service: Restart the SSH service to apply the changes:
+sudo systemctl restart ssh
+
+2. Set Root Password
+Ensure that the root user has a password set:
+
+sudo passwd root
+
+Enter and confirm the new password.
+
+3. Use SSH Key Authentication
+Generate SSH Key Pair: On your Windows machine, generate an SSH key pair using a tool like PuTTYgen or the ssh-keygen command:
+ssh-keygen -t rsa -b 2048 -f my-ssh-key
+This will generate two files: my-ssh-key (private key) and my-ssh-key.pub (public key).
+Copy Public Key to Linux Machine: Copy the contents of my-ssh-key.pub to the /root/.ssh/authorized_keys file on your Linux machine:
+sudo mkdir -p /root/.ssh
+sudo nano /root/.ssh/authorized_keys
+Paste the contents of my-ssh-key.pub into this file and save it.
+Configure FileZilla to Use SSH Key:
+Open FileZilla.
+Go to Edit > Settings > Connection > SFTP.
+Click on Add keyfile... and select your private key file (my-ssh-key).
+In the Site Manager, set the Logon Type to Key file and specify the path to your private key.
+
+4. Verify IP Address
+Ensure you are using the correct IP address of your Linux machine. You can find it using:
+
+hostname -I
+
+Use the IP address that is not 127.0.0.1 or 127.0.1.1.
+
+5. Connect with FileZilla
+Open FileZilla: Start FileZilla on your Windows machine.
+Add a New Site: Go to File > Site Manager and click New Site.
+Enter Connection Details:
+Host: Enter the correct IP address (e.g., 192.168.1.100).
+Protocol: Select SFTP - SSH File Transfer Protocol.
+Logon Type: Select Key file or Normal (if using password).
+User: Enter root.
+Connect: Click Connect to establish the connection.
