@@ -6,3 +6,13 @@ sudo -i
 
 #Restart
 
+##How to never type in your password again
+sudo visudo
+
+Find the line that looks like this:
+%sudo   ALL=(ALL:ALL) ALL
+
+Change it to:
+%sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+
+Ctrl+X, then Y
