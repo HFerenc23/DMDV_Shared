@@ -16,6 +16,9 @@ touch
 rm
   Remove file in wd
 
+rmdir new_folder
+	Remove Directory
+
 ##Edit files
 nano /home/docker_learn/dockerfile_rstudio 
   edit a file
