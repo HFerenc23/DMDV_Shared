@@ -16,3 +16,16 @@ Change it to:
 %sudo   ALL=(ALL:ALL) NOPASSWD:ALL
 
 Ctrl+X, then Y
+
+##Set Prompt Color To Green (@root)
+nano ~/.bashrc
+
+# Copy the following to the end of the file
+PS1='\[\e[0;32m\]\u@\h:\w\$ \[\e[m\]'
+Ctrl+X, then Y
+
+```markdown
+```
+PS1='\[\e[0;32m\]\u@\h:\w\$ \[\e[m\]'
+```
+```
