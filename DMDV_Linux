@@ -24,146 +24,63 @@ nano /home/docker_learn/dockerfile_rstudio
   edit a file
   to save press CTRL+X, then Y
 
-##tar files
-Not compressed, just bundled files
-
-tar filename
-  create a tar file
-
-tar -xf filename
-  extract a tar file
-
 ############################################################
 ## Docker commands
-#### `docker ps -a`
-Lists all containers, including the stopped and paused ones.
-```bash
 docker ps -a
-```
----
-#### `docker help`
-Displays help messages for Docker commands.
+	Lists all containers, including the stopped and paused ones.
 
-**General Syntax**
-```bash
-docker help [COMMAND]
-```
-**Example**
-```bash
-docker help ps
-```
----
-#### `docker run`
-Runs a Docker container.
-**General Syntax**
+docker run
+  Runs a Docker container.
+  
+  docker run -d -p 8787:8787 -e PASSWORD=au_dm_dv_student! --name rstudio -v rstudio_data:/home/rstudio rocker/rstudio
 
-```bash
-docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-```
-**Example**
-```bash
-docker run -d -p 8787:8787 -e PASSWORD=au_dm_dv_student! --name rstudio -v rstudio_data:/home/rstudio rocker/rstudio
-```
----
-#### `docker exec`
-Executes commands in a running container.
-
-**General Syntax**
-```bash
 docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
-```
-**Example**
-```bash
-docker exec -it rstudio /bin/bash
-```
----
-#### `docker rm`
+  Executes commands in a running container.
+  docker exec -it rstudio /bin/bash
 
-Removes a stopped Docker container.
-
-**General Syntax**
-```bash
 docker rm [CONTAINER]
-```
-**Example**
-```bash
-docker rm rstudio
-```
----
-#### `docker rm -f`
-Forcefully removes a Docker container, even though it is running.
+  Removes a stopped Docker container.
 
-**General Syntax**
-```bash
-docker rm -f [CONTAINER]
-```
-**Example**
-
-```bash
-docker rm -f rstudio
-```
----
-#### `docker pull`
-Pulls an image from a Docker registry.
-```bash
 docker pull rocker/shiny
-```
+  Pulls an image from a Docker registry.
+
 ### Volume Management
----
-#### `docker volume create`
-Creates a Docker shared volume.
 
-**General Syntax**
-```bash
-docker volume create [OPTIONS] [VOLUME]
-```
-**Example**
-```bash
-docker volume create rstudio_data
-```
----
-#### `docker volume ls`
-Lists all Docker volumes.
-```bash
+docker volume create
+  Creates a Docker shared volume.
+
 docker volume ls
-```
-#### `docker volume inspect`
-Inspect the host location of Docker volumes.
-```bash
+  Lists all Docker volumes.
+
 docker volume inspect --format '{{ .Mountpoint }}' $(docker volume ls -q)
-```
-### File Permission
----
-#### `chmod o+rw`
-Changes read and write permissions for 'other' users on a file or directory.
+  Returns a list of shared volumes and their location on the host machine
 
-**General Syntax**
-```bash
+docker save -o`
+  Saves a Docker image to a tar archive.
+
+  docker save -o rstudio_1_0_0.tar rstudio:1.0.0
+
+docker load -i [PATH_TO_TAR_FILE]
+  Loads a Docker image from a tar archive.
+
+## Dockerfile Example for RStudio Setup
+```Dockerfile
+# Start from the rocker/rstudio base image which has R and RStudio pre-installed
+FROM rocker/rstudio
+# The RUN command executes shell commands during the image building process.
+RUN apt-get update && apt-get install -y \
+	git
+# Install R packages using R's built-in 'install.packages' function.
+RUN R -e 'install.packages(c("DBI", "RPostgres"))'
+```
+
 chmod o+rw [FILE_OR_DIRECTORY]
-```
-**Example**
-Here we give read and write permission to 'other' users in a shared volume
-```bash
-chmod o+rw /var/lib/docker/volumes/rstudio_data/_data
-```
-
-##Containers
-docker container ps -a #inspect all containers
+  Changes read and write permissions for 'other' users on a file or directory.
 
 ##Images
 docker image ls #inspect current images
 docker rmi [imageID] #remove image
 docker image build --tag rstudio:1.0.0 -f dockerfile_rstudio . #build rstudio image
-
-##Shared Volume
-docker volume create rstudio_data
-  Creates a volume on the host machine which can be accessed from the containers
-
-docker volume ls
-  list of shared volumes
-
-docker volume inspect --format '{{ .Mountpoint }}' $(docker volume ls --q)
-  Returns a list of shared volumes and their location on the host machine
 
 ##RStudio as a container
 docker run -d -p 8787:8787-e PASSWORD=Thisls4ThePassword -name rstudio -v rstudio_data:/home/rstudio rocker/rstudio
@@ -175,9 +92,32 @@ docker run -d -p 8787:8787-e PASSWORD=Thisls4ThePassword -name rstudio -v rstudi
 	-v rstudio_data:/home/rstudio: Mount the volume "rstudio_data" to the container path "/home/rstudio"
 	rocker/rstudio: The name of the image that you use to install and run the docker container
 
+##tar files
+Not compressed, just bundled files
+
+tar filename
+  create a tar file
+
+tar -xf filename
+  extract a tar file
+
+#Example
+docker save -o rstudio_1_0_1.tar rstudio:1.0.1
+docker rm -f rstudio
+docker rmi rstudio:1.0.1
+docker load -i rstudio_1_0_1.tar #May need to define the patzh
+docker run -d --network db_r_shiny -p 8787:8787 -e PASSWORD=ThisIs4ThePassword --name rstudio -v rstudio_data:/home/rstudio rstudio:1.0.1
+
 ############################################################
 
 #### Networks
+docker network ls
+  Bridge: Provides inter-container connectivity on the same machine
+  Host: Containers connected to the host interact with the host network
+  None: Containers connected to this does not have network connectivity outside themselves
+  Local scope: The network is constrained to the host running Docke
+  
+
 ##How to create a new network
 docker network create -driver bridge -attachable --scope local --subnet 10.0.42.0/24 -ip-range 10.0.42.128/25 db_r_shiny
   docker network create: Command to build a new network
