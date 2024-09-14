@@ -34,6 +34,118 @@ tar -xf filename
   extract a tar file
 
 ############################################################
+## Docker commands
+#### `docker ps -a`
+Lists all containers, including the stopped and paused ones.
+```bash
+docker ps -a
+```
+---
+#### `docker help`
+Displays help messages for Docker commands.
+
+**General Syntax**
+```bash
+docker help [COMMAND]
+```
+**Example**
+```bash
+docker help ps
+```
+---
+#### `docker run`
+Runs a Docker container.
+**General Syntax**
+
+```bash
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+**Example**
+```bash
+docker run -d -p 8787:8787 -e PASSWORD=au_dm_dv_student! --name rstudio -v rstudio_data:/home/rstudio rocker/rstudio
+```
+---
+#### `docker exec`
+Executes commands in a running container.
+
+**General Syntax**
+```bash
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+```
+**Example**
+```bash
+docker exec -it rstudio /bin/bash
+```
+---
+#### `docker rm`
+
+Removes a stopped Docker container.
+
+**General Syntax**
+```bash
+docker rm [CONTAINER]
+```
+**Example**
+```bash
+docker rm rstudio
+```
+---
+#### `docker rm -f`
+Forcefully removes a Docker container, even though it is running.
+
+**General Syntax**
+```bash
+docker rm -f [CONTAINER]
+```
+**Example**
+
+```bash
+docker rm -f rstudio
+```
+---
+#### `docker pull`
+Pulls an image from a Docker registry.
+```bash
+docker pull rocker/shiny
+```
+### Volume Management
+---
+#### `docker volume create`
+Creates a Docker shared volume.
+
+**General Syntax**
+```bash
+docker volume create [OPTIONS] [VOLUME]
+```
+**Example**
+```bash
+docker volume create rstudio_data
+```
+---
+#### `docker volume ls`
+Lists all Docker volumes.
+```bash
+docker volume ls
+```
+#### `docker volume inspect`
+Inspect the host location of Docker volumes.
+```bash
+docker volume inspect --format '{{ .Mountpoint }}' $(docker volume ls -q)
+```
+### File Permission
+---
+#### `chmod o+rw`
+Changes read and write permissions for 'other' users on a file or directory.
+
+**General Syntax**
+```bash
+chmod o+rw [FILE_OR_DIRECTORY]
+```
+**Example**
+Here we give read and write permission to 'other' users in a shared volume
+```bash
+chmod o+rw /var/lib/docker/volumes/rstudio_data/_data
+```
 
 ##Containers
 docker container ps -a #inspect all containers
