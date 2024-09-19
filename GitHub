@@ -1,0 +1,33 @@
+## Setting up Git Credentials
+-------------------------------------------------------------
+# Add your github username as the global Git username in your container
+git config --global user.name [username_from_github]
+
+# Add the Email associated with your github account as the global Git Email in your container
+git config --global user.email [email_from_github]  
+
+# Stores credentials in plain text.
+git config --global credential.helper store
+
+# Check your Git settings
+git config --list 
+
+------------------------------------------------------------------
+# Change our branch name from “master” to “main” to align with Github terminology
+git branch -M main
+
+# Connect our local repository to the remote where HTTP-link is your own respiratory
+git remote add origin [the-HTTP-link]
+
+# Updates the remote repository from your local repository
+git push -u origin main
+
+-----------------------------------------------------------------------------
+# Ensures Git uses the default merging strategy
+git config pull.rebase false
+
+# Add a file to .gitignore which already exists in the git history
+git rm --cached [name_of_file_added_to_.gitignore]
+
+# The repository will now be downloaded as a folder within the current directory in your terminal
+git clone [the-HTTP-link]
