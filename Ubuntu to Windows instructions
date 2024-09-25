@@ -1,0 +1,6 @@
+#Open PowerShell as Admin
+wsl --install
+
+#Once you have installed Ubuntu, do the following in the command prompt
+sudo whoami
+sudo apt-get update
