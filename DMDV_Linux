@@ -6,6 +6,7 @@ ls
   List Directory
 cd
   Change Directory (basically move around)
+  example: cd /home/scheduling
 
 mkdir 
   Make Directory
