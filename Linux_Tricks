@@ -23,3 +23,23 @@ nano ~/.bashrc
 # Copy the following to the end of the file
 PS1='\[\e[0;32m\]\u@\h:\w\$ \[\e[m\]'
 Ctrl+X, then Y
+
+
+#Autostart docker containers upon opening Ubuntu
+nano ~/start_docker_containers.sh
+
+#add the following lines to the script:
+#!/bin/bash
+docker start rstudio
+docker start postgres
+docker start rshiny
+
+#Save and close the file (Ctrl+X, then Y, then Enter).
+
+chmod +x ~/start_docker_containers.sh
+
+#Add this to your startup script
+nano ~/.bashrc
+ # Add the following line to the end of the file:
+bash ~/start_docker_containers.sh
+#Save and close the file (Ctrl+X, then Y, then Enter).
