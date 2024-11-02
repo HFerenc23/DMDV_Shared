@@ -33,6 +33,7 @@ nano ~/start_docker_containers.sh
 docker start rstudio
 docker start postgres
 docker start rshiny
+docker exec -it b94c03562fd5 service cron start # This line starts CronR automatically. Make sure to select the correct container ID
 
 #Save and close the file (Ctrl+X, then Y, then Enter).
 
