@@ -44,7 +44,12 @@ docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
 docker exec -it rstudio /bin/bash
 
 # Removes a stopped Docker container
-docker rm [CONTAINER]
+docker rm [CONTAINER or CONTAINERID]
+
+# Close all exited containers
+docker container prune
+# OR
+docker rm $(docker ps -a -q -f status=exited) #but this deletes all exited!
 
 # Pulls an image from a Docker registry
 docker pull rocker/shiny
